@@ -1,3 +1,4 @@
+% modified gram schmidt
 function [Q,R] = mgs(A)
   [m,n] = size(A); % num cols
   Q = zeros(m,n);
