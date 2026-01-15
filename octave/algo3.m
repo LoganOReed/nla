@@ -1,5 +1,5 @@
-% CGW algo1 from Andrew,Szyld paper
-function [x,R,iter,t] = algo1(A,b,tol,maxit)
+% CGW algo2 from Andrew,Szyld paper
+function [x,R,iter,t] = algo3(A,b,tol,maxit)
 %solves (M-N)x=b according to Widlund, A LANCZOS METHOD FOR A CLASS OF NONSYMMETRIC
 %SYSTEMS OF LINEAR EQUATIONS
 
@@ -26,40 +26,42 @@ K = H\S;
 
 % NOTE: only store 3 for 3-term recurrence
 vprev=zeros(n,1);
-v= H \ b;
+v = vprev;
 
 xprev=zeros(n,1);
 x=xprev;
 
-% NOTE: Stored as list for visualization
-r = b;
-R(1) = norm(r);
+
 aprev = 0;
 a = 1;
 pprev = 1;
 p = 1;
-w = 1 / a;
+
+rprev = b;
+r = rprev;
+R(1) = norm(r);
 tic;
-% NOTE: for v/x, 1 is prev, 2 is current, 3 is next
-% so 1 = k-1, 2 = k, 3=k+1
 k = 1;
 while (R(k)>tol) && (k<maxit)
-  p = v'*H*v;
+  v = H \ r;
+  p = r'*v;
   a = 1 + (p / pprev) * aprev;
   w = 1 / a;
   xnext = (1 - w)*xprev + w*x + w*v;
-  rnext = b - A*xnext;
+  rnext = (1 - w)*rprev - w*S*v;
   R(k+1) = norm(rnext);
-  vnext = w*K*v + (1 - w)*vprev;
 
   % Update the xs and vs so they line up with k
   aprev = a;
   pprev = p;
+
+  rprev = r;
+  r = rnext;
+
   xprev = x;
   x = xnext;
 
   vprev = v;
-  v = vnext;
 
   k = k+1;
 end

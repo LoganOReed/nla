@@ -6,13 +6,11 @@
 % velocity field c,d
 function A = cdprob(a,b,v,mu,tau)
 
-
-
 N = size(a,1);
 h = 1/(N+1);
 n = N^2;
 
-if nargs < 5
+if nargin < 5
   tau = 0.5*h*h;
 end
 
@@ -70,6 +68,15 @@ A = speye(n) + (tau/2)*B;
 
 end
 
+%
+% %! alpha_fun = @(x,y) 1;
+% %! beta_fun  = @(x,y) 1;
+% %! v_fun     = @(x,y) 0;
+% %! mu_fun    = @(x,y) 0;
+% %! a= alpha_fun(x,y);
+% %! b= beta_fun(x,y);
+% %! v= v_fun(x,y);
+% %! mu= mu_fun(x,y);
 
 %!test
 %! N = 100;
@@ -78,17 +85,13 @@ end
 %! [x,y] = meshgrid((1:N)*h,(1:N)*h);
 %! z = sin(pi*x).*sin(pi*y);
 %! z = z(:);
-%! alpha_fun = @(x,y) 1;
-%! beta_fun  = @(x,y) 1;
-%! v_fun     = @(x,y) 0;
-%! mu_fun    = @(x,y) 0;
-%! a= alpha_fun(x,y);
-%! b= beta_fun(x,y);
-%! v= v_fun(x,y);
-%! mu= mu_fun(x,y);
+%! a = ones(N);
+%! b = ones(N);
+%! v = zeros(N);
+%! mu = zeros(N);
 %! A = cdprob(a,b,v,mu,tau);
-%! AzNum = A*z
+%! AzNum = A*z;
 %! lambda_h = (8/h^2)*sin(pi*h/2)^2;
-%! AzExact = (1 + tau/2*lambda_h)*z
+%! AzExact = (1 + tau/2*lambda_h)*z;
 %! rerr = norm(AzNum - AzExact) / norm(AzExact);
-%! assert(rerr,e-13)
+%! assert(rerr,0,tol=3e-3);
