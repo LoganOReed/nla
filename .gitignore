@@ -2,3 +2,4 @@ app/fortran
 app/__pycache__
 .direnv/
 .git/
+octave-workspace
