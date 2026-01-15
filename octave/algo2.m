@@ -60,7 +60,7 @@ while (R(k)>tol) && (k<maxit)
 
   k = k+1;
 end
-iter = k
+iter = k;
 t = toc;
 
 end

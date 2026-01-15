@@ -1,5 +1,5 @@
 % CGW algo2 from Andrew,Szyld paper
-function [x,R,iter,t] = algo3(A,b,tol,maxit)
+function [x,R,iter,t] = algo6(A,b,tol,maxit)
 %solves (M-N)x=b according to Widlund, A LANCZOS METHOD FOR A CLASS OF NONSYMMETRIC
 %SYSTEMS OF LINEAR EQUATIONS
 
@@ -18,10 +18,23 @@ if nargin<4
     maxit=100;
 end
 
-H = 0.5 * (A + A'); % Hermitian
-S = 0.5 * (A - A'); % Skew-Hermitian
-K = H\S;
+
+H = 0.5*(A + A');
+S = 0.5*(A - A');
+% chol(A)
+L = icholspd(H);
+Htil = L*L';
+
+try
+  chol(L'*L);
+catch
+  error('ichol failed to maintain spd');
+end
+
+K = L' \ (L\S);
 [n,~]=size(A);
+
+
 
 
 % NOTE: only store 3 for 3-term recurrence
@@ -43,7 +56,7 @@ R(1) = norm(r);
 tic;
 k = 1;
 while (R(k)>tol) && (k<maxit)
-  v = H \ r;
+  v = L' \ (L \ r);
   p = r'*v;
   a = 1 + (p / pprev) * aprev;
   w = 1 / a;
@@ -65,7 +78,7 @@ while (R(k)>tol) && (k<maxit)
 
   k = k+1;
 end
-iter = k;
+iter = k
 t = toc;
 
 end

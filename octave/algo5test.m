@@ -7,11 +7,12 @@ tau = 0.5*h^2;
 z = x.*y.*(1-x).*(1-y);
 z = z(:);
 a = ones(N) ./ 2;
-b = ones(N) ./ 2;
+b = ones(N) ./2;
 v = zeros(N);
 mu = zeros(N);
 A = cdprob(a,b,v,mu,tau);
-[x,R,it,t] = algo3(A,A*z,1e-8,400);
+
+[x,R,it,t] = algo5(A,A*z,1e-8,200);
 iterations = it
 time = t
 rerr = norm(z - x) / norm(z)
@@ -24,11 +25,11 @@ figure;
 semilogy(1:it, R, '-o', 'LineWidth', 2, 'MarkerSize', 6);
 xlabel('Iteration');
 ylabel('Residual');
-title('Algo3: Residuals over Iterations');
+title('Algo5: Residuals over Iterations');
 grid on;
 %
 % Save the figure as a PNG
-% print('algo2_simple.png', '-dpng', '-r300'); % -r300 sets resolution to 300 dpi
+% print('algo1_simple.png', '-dpng', '-r300'); % -r300 sets resolution to 300 dpi
 
 %
 % %! alpha_fun = @(x,y) 1;

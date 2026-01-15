@@ -11,7 +11,7 @@ b = ones(N) ./ 2;
 v = zeros(N);
 mu = zeros(N);
 A = cdprob(a,b,v,mu,tau);
-[x,R,it,t] = algo3(A,A*z,1e-8,400);
+[x,R,it,t] = algo6(A,A*z,1e-8,400);
 iterations = it
 time = t
 rerr = norm(z - x) / norm(z)
@@ -24,7 +24,7 @@ figure;
 semilogy(1:it, R, '-o', 'LineWidth', 2, 'MarkerSize', 6);
 xlabel('Iteration');
 ylabel('Residual');
-title('Algo3: Residuals over Iterations');
+title('Algo6: Residuals over Iterations');
 grid on;
 %
 % Save the figure as a PNG
